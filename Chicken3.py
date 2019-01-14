@@ -26,17 +26,24 @@ def button(text, x, y, width, height, txtSize, inColor, activateColor, action=No
         textRect.center = ( (x+(width/2)), (y+(height/2)) )
     screen.blit(textSurf, textRect)
 
-def switchScreen(screen):
-    currentScene = screen
-    #Information screen
-    if (screen == 2):
-        
-    
-    
-pygame.init()
+##def switchScreen(scene):
+##    currentScene = scene
+##    print("Scene changed to {}".format(scene))
+##    #Information screen
+##    if (scene == 2):
+##        screen.fill((255,100,100))
+##        currentScene = 2
+##    print(currentScene)
 
-resX = 1150
-resY = 750
+def startGame(): #(whereFrom): Trying to build to allow for later implementation of contuing game from main menu after already starting the game once
+    screen.fill((255,100,100))
+    
+    
+    
+pygame.init()    
+
+resX = 1024
+resY = 576
 
 #Commonly used colors
 WHITE = (255,255,255)
@@ -66,7 +73,9 @@ pygame.display.set_caption("Chicken: The Threequel")
 pygame.display.flip()
 
 #"First Run" stuff
-currentScene = 1
+##currentScene = 1
+print("Setting initial scene to main menu")
+mMenu = True
 
 running = True
 try: #Using a try statement so the window actually closes
@@ -75,10 +84,10 @@ try: #Using a try statement so the window actually closes
         
         #Menu Scene
         pygame.event.pump()
-        screen.fill(BLACK)
-        if currentScene == 1:
-            button("Start",150,100,250,250,150,(100,100,100),(50,50,50),switchScreen,2)
-
+        if mMenu:
+            screen.fill(BLACK)
+            mMenu = button("Start",150,100,250,250,150,(100,100,100),(50,50,50),startGame)
+##            print(currentScene)
         
         pygame.display.update()
         #Closing the box
