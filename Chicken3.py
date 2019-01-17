@@ -1,10 +1,13 @@
-from tkinter import *
+import tkinter as tk
 #import csv
-from random import randint
 
+
+#RGB to tkinter readable
+def _from_rgb(rgb):
+    return "#%02x%02x%02x" % rgb
 
 #Tk init
-root = Tk()
+root = tk.Tk()
 root.title("Chicken: The Threequel")
 scrX = root.winfo_screenwidth()
 scrY = root.winfo_screenheight()
@@ -25,15 +28,24 @@ print("Screen x is {}".format(scrX))
 print("Screen y is {}".format(scrY))
 print("Res y is {}".format(resY))
 print("Res x is {}".format(resX))
-Grid.rowconfigure(root, 0, weight=1)
-Grid.columnconfigure(root, 0, weight=1)
+tk.Grid.rowconfigure(root, 0, weight=1)
+tk.Grid.columnconfigure(root, 0, weight=1)
 root.geometry(resXY)
 root.iconbitmap(r'.\art\pixel\favicon.ico')
 
-#Setting up main screen
+#Setting up info screen
+def startGame():
+    return
+
+#Setting up intro screen
 def startMenu():
-    frame = Frame(root)
-    frame.grid(row=0,column=0,sticky=N+S+E+W)
+    frame = tk.Frame(root,width=200,height=200,bg='black')
+    frame.grid(row=0,column=0, sticky="nsew")
+    frame.grid_rowconfigure(0, weight = 1)
+    frame.grid_columnconfigure(0, weight = 1)
+    startGameBtn = tk.Button(frame, text="Start Game",action=startGame(),bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke',height="2",width="10")
+    startGameBtn.grid()
+    return frame
 
 #Init stuff
 startMenu()
