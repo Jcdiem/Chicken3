@@ -18,8 +18,8 @@ if (scrAsp > 1.68 and scrAsp < 1.8): #Looking for 1.77
     resX = int(16 * (0.75*(scrX/16)))
     resY = int(9 * (0.75*(scrY/9)))
 elif (scrAsp > 1.58 and scrAsp < 1.70): #Looking for 1.6
-    resX = int( 16 * (0.25*scrX))
-    resY = int( 10 * (0.25*scrY))
+    resX = int( 16 * (0.75*(scrX/16)))
+    resY = int( 10 * (0.75*(scrY/10)))
 else: #Resolution for peasents or people with weird tastes
     resX = 640
     resyY = 480
