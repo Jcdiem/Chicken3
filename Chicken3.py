@@ -43,8 +43,22 @@ def startMenu():
     frame.grid(row=0,column=0, sticky="nsew")
     frame.grid_rowconfigure(0, weight = 1)
     frame.grid_columnconfigure(0, weight = 1)
-    startGameBtn = tk.Button(frame, text="Start Game",action=startGame(),bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke',height="2",width="10")
+    #Fonts
+    menuSizeMedium = round(0.0000423*(resX*resY))
+    menuBtnFont = ('TkDefaultFont',menuSizeMedium)
+
+    menuSizeLarge = 50
+    menuTitleFont = ('TkDefaultFont',menuSizeLarge)
+    #Buttons
+    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",action=startGame(),bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
+    
+    #Lables / Titles
+    mMenuTitle = tk.Label(frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg=('black'))
+
+    #Grid formatting
+    mMenuTitle.grid()
     startGameBtn.grid()
+
     return frame
 
 #Init stuff
