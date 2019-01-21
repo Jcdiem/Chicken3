@@ -33,19 +33,25 @@ tk.Grid.columnconfigure(root, 0, weight=1)
 root.geometry(resXY)
 root.iconbitmap(r'.\art\pixel\favicon.ico')
 
+def newFrame(background):
+    retFrame = tk.Frame(root,bg=background)
+    retFrame.grid(row=0,column=0, sticky="nsew")
+    retFrame.grid_rowconfigure(0, weight = 1)
+    retFrame.grid_columnconfigure(0, weight = 1)
+    return retFrame
+
 #Setting up info screen
-def startGame():
-    return
+def startGame(oldFrame):
+    oldFrame.grid_forget()
+    oldFrame.destroy()
+    frame = newFrame('black')
+
 
 #Setting up intro screen
 def startMenu():
+    frame = newFrame('black')
     def urMom():
-        print("ur mom dumb")
-        return
-    frame = tk.Frame(root,width=200,height=200,bg='black')
-    frame.grid(row=0,column=0, sticky="nsew")
-    frame.grid_rowconfigure(0, weight = 1)
-    frame.grid_columnconfigure(0, weight = 1)
+        startGame(frame)
     #Fonts
     menuSizeMedium = round(0.0000423*(resX*resY))
     menuBtnFont = ('comic sans',menuSizeMedium)
