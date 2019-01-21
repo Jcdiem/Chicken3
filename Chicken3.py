@@ -33,31 +33,38 @@ tk.Grid.columnconfigure(root, 0, weight=1)
 root.geometry(resXY)
 root.iconbitmap(r'.\art\pixel\favicon.ico')
 
+#Fonts
+menuSizeMedium = round(0.0000423*(resX*resY))
+menuBtnFont = ('comic sans',menuSizeMedium)
+
+menuSizeLarge = round(0.00006887*(resX*resY))
+menuTitleFont = ('comic sans',menuSizeLarge)
+
+
 def newFrame(background):
     retFrame = tk.Frame(root,bg=background)
     retFrame.grid(row=0,column=0, sticky="nsew")
     retFrame.grid_rowconfigure(0, weight = 1)
     retFrame.grid_columnconfigure(0, weight = 1)
+    retFrame.grid()
     return retFrame
 
 #Setting up info screen
-def startGame(oldFrame):
+def startInfo(oldFrame):
     oldFrame.grid_forget()
-    oldFrame.destroy()
     frame = newFrame('black')
+    
 
+    infoLabel = tk.Label(frame,fg='white',text="This is a sample text to reference sizing and \n new lines")
+   
+    #Grid stuff
+    infoLabel.grid
 
 #Setting up intro screen
 def startMenu():
     frame = newFrame('black')
     def urMom():
-        startGame(frame)
-    #Fonts
-    menuSizeMedium = round(0.0000423*(resX*resY))
-    menuBtnFont = ('comic sans',menuSizeMedium)
-
-    menuSizeLarge = round(0.00006887*(resX*resY))
-    menuTitleFont = ('comic sans',menuSizeLarge)
+        startInfo(frame)
     #Buttons
     startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=urMom,bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
     
@@ -67,8 +74,6 @@ def startMenu():
     #Grid formatting
     mMenuTitle.grid()
     startGameBtn.grid()
-
-    return frame
 
 #Init stuff
 startMenu()
