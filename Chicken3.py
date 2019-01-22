@@ -54,10 +54,10 @@ def newFrame(background):
 def startInfo(oldFrame):
     # oldFrame.grid_forget()
     frame = newFrame('black')
-    infoLabel = tk.Label(frame,fg='white',text="This is a sample text to reference sizing and \n new lines")
+    infoLabel = tk.Label(frame,bg='black',fg='white',text="This is a sample text to reference sizing and \n new lines")
    
     #Grid stuff
-    infoLabel.grid
+    infoLabel.grid()
 
 #Setting up intro screen
 def startMenu():
