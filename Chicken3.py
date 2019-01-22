@@ -47,14 +47,13 @@ def newFrame(background):
     retFrame.grid_rowconfigure(0, weight = 1)
     retFrame.grid_columnconfigure(0, weight = 1)
     retFrame.grid()
+    retFrame.tkraise()
     return retFrame
 
 #Setting up info screen
 def startInfo(oldFrame):
-    oldFrame.grid_forget()
+    # oldFrame.grid_forget()
     frame = newFrame('black')
-    
-
     infoLabel = tk.Label(frame,fg='white',text="This is a sample text to reference sizing and \n new lines")
    
     #Grid stuff
@@ -63,10 +62,12 @@ def startInfo(oldFrame):
 #Setting up intro screen
 def startMenu():
     frame = newFrame('black')
-    def urMom():
+    def switchScreen():
         startInfo(frame)
+
+
     #Buttons
-    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=urMom,bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
+    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=switchScreen,bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
     
     #Lables / Titles
     mMenuTitle = tk.Label(frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg=('black'))
