@@ -35,10 +35,13 @@ root.iconbitmap(r'.\art\pixel\favicon.ico')
 
 #Fonts
 menuSizeMedium = round(0.0000423*(resX*resY))
-menuBtnFont = ('comic sans',menuSizeMedium)
+menuBtnFont = ('comic sans ms',menuSizeMedium)
 
 menuSizeLarge = round(0.00006887*(resX*resY))
-menuTitleFont = ('comic sans',menuSizeLarge)
+menuTitleFont = ('comic sans ms',menuSizeLarge)
+
+infoFontLarge = round(0.000050862*(resX*resY))
+largeInfoFont = ('comic sans ms',infoFontLarge)
 
 
 def newFrame(background):
@@ -54,7 +57,7 @@ def newFrame(background):
 def startInfo(oldFrame):
     # oldFrame.grid_forget()
     frame = newFrame('black')
-    infoLabel = tk.Label(frame,bg='black',fg='white',text="This is a sample text to reference sizing and \n new lines")
+    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,text="This is a sample text to reference sizing and \n new lines")
    
     #Grid stuff
     infoLabel.grid()
