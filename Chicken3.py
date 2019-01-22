@@ -24,6 +24,7 @@ else: #Resolution for peasents or people with weird tastes
     resX = 640
     resyY = 480
 resXY = str(resX)+'x'+str(resY)
+resMult = (resX*resY)
 print("Screen x is {}".format(scrX))
 print("Screen y is {}".format(scrY))
 print("Res x is {}".format(resX))
@@ -34,13 +35,15 @@ root.geometry(resXY)
 root.iconbitmap(r'.\art\pixel\favicon.ico')
 
 #Fonts
-menuSizeMedium = round(0.0000423*(resX*resY))
+fullScreenWrap = round(0.001298868*resMult)
+
+menuSizeMedium = round(0.0000423*resMult)
 menuBtnFont = ('comic sans ms',menuSizeMedium)
 
-menuSizeLarge = round(0.00006887*(resX*resY))
+menuSizeLarge = round(0.00006887*resMult)
 menuTitleFont = ('comic sans ms',menuSizeLarge)
 
-infoFontLarge = round(0.000050862*(resX*resY))
+infoFontLarge = round(0.000050862*resMult)
 largeInfoFont = ('comic sans ms',infoFontLarge)
 
 
@@ -55,12 +58,16 @@ def newFrame(background):
 
 #Setting up info screen
 def startInfo(oldFrame):
-    # oldFrame.grid_forget()
+    oldFrame.grid_forget()
     frame = newFrame('black')
-    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,text="This is a sample text to reference sizing and \n new lines")
-   
+    def switchScreen():
+        return
+    
+    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to reference sizing and new lines")
+    startBtn = tk.Button(frame,command=switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
     #Grid stuff
     infoLabel.grid()
+    startBtn.grid()
 
 #Setting up intro screen
 def startMenu():
@@ -70,10 +77,10 @@ def startMenu():
 
 
     #Buttons
-    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=switchScreen,bg=(_from_rgb((50,50,50))),foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
+    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=switchScreen,bg='gray50',foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
     
     #Lables / Titles
-    mMenuTitle = tk.Label(frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg=('black'))
+    mMenuTitle = tk.Label(frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg='black')
 
     #Grid formatting
     mMenuTitle.grid()
