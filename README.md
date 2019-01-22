@@ -6,7 +6,7 @@ Bawk.
 -Removed core files  
 -Added new core files  
 -Now using tkinter since the game is based off of point and click/buttons anyways  
--Game now detects screen asepct ratio (for 16:9 and 16:10)  
+-Game now detects screen aspect ratio (for 16:9 and 16:10)  
 -If not using 16:9 or 16:10 will be assigned a trash 640x480 resolution  
 -Will probably add more aspect ratios eventually  
 * V 0.0.1A  
