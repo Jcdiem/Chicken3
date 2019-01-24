@@ -46,7 +46,12 @@ menuTitleFont = ('comic sans ms',menuSizeLarge)
 infoFontLarge = round(0.000050862*resMult)
 largeInfoFont = ('comic sans ms',infoFontLarge)
 
+#Game vars
+global gameClockHour = 6
+global gameClockMinute = 0
+global gameDays = 0
 
+#Game Functions
 def newFrame(background):
     retFrame = tk.Frame(root,bg=background)
     retFrame.grid(row=0,column=0, sticky="nsew")
@@ -55,6 +60,33 @@ def newFrame(background):
     retFrame.grid()
     retFrame.tkraise()
     return retFrame
+
+    def addTime(time):
+        global gameClockHour
+        global gameClockMinute
+        global gameDays
+        gameClockMinute += time
+        while (gameClockHour > 23 or gameClockMinute > 59):
+            if((gameClockMinute - 60) <= 0): #If more than 60 minutes then add one hour
+                gameClockHour += 1
+                gameClockMinute %= 60
+            if((gameClockHour - 24) <= 0): #If more than 23 hours then add one day
+                gameDays += 1
+                gameClockHour %= 24
+        return
+
+
+##Scene Functions
+
+#Setting up the main game screen
+def mainCamp(oldFrame):
+    oldFrame.grid_froget()
+    frame = newFrame('black')
+    def siwtchScreen():
+        return
+    if(gameClockHour >= 6 and gameClockHour < 19):
+        return
+    #Grid Stuff
 
 #Setting up info screen
 def startInfo(oldFrame):
