@@ -47,9 +47,12 @@ infoFontLarge = round(0.000050862*resMult)
 largeInfoFont = ('comic sans ms',infoFontLarge)
 
 #Game vars
-global gameClockHour = 6
-global gameClockMinute = 0
-global gameDays = 0
+global gameClockHour
+gameClockHour = 6
+global gameClockMinute 
+gameClockMinute = 0
+global gameDays
+gameDays = 0
 
 #Game Functions
 def newFrame(background):
