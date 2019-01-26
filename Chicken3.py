@@ -83,20 +83,33 @@ def newFrame(background):
 
 #Setting up the main game screen
 def mainCamp(oldFrame):
-    oldFrame.grid_froget()
-    frame = newFrame('black')
+    # oldFrame.grid_froget()
+
+    #Color management based on time of day
+    backgroundC = 'black'
+    if(gameClockHour >= 6 and gameClockHour < 19): # Do Daytime
+        backgroundC = 'black'
+    else: #Do Nightime
+        backgroundC = 'black'
+
+    frame = newFrame(backgroundC)
     def siwtchScreen():
         return
-    if(gameClockHour >= 6 and gameClockHour < 19):
-        return
-    #Grid Stuff
+
+    sceneTitle = tk.Label(frame,bg=backgroundC,fg='white',font=largeInfoFont,text="Main Camp")
+    
+    #Formatting
+    sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Place at middle of screen, top
+    sceneTitle.update()
+    sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
+    
 
 #Setting up info screen
 def startInfo(oldFrame):
     oldFrame.grid_forget()
     frame = newFrame('black')
     def switchScreen():
-        return
+        mainCamp(frame)
     
     infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to reference sizing and new lines")
     startBtn = tk.Button(frame,command=switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
