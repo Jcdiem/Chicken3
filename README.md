@@ -1,7 +1,12 @@
 # Chicken3
-Bawk.
+Bawk bawk.
 
-# _Change Log_
+# _Change Log_  
+* V 0.0.3E  
+-Finsished the framework for the tkinter game  
+-Working on the camp screen  
+-Will likely be a pain, but I'm sticking with it so far  
+-Expected to have campsite done in the next couple of months  
 * V 0.0.2Q  
 -Removed core files  
 -Added new core files  
