@@ -1,4 +1,5 @@
 import tkinter as tk
+import os as os
 #import csv
 
 
@@ -32,19 +33,19 @@ print("Res y is {}".format(resY))
 tk.Grid.rowconfigure(root, 0, weight=1)
 tk.Grid.columnconfigure(root, 0, weight=1)
 root.geometry(resXY)
-root.iconbitmap(r'.\art\pixel\favicon.ico')
+root.iconbitmap(os.path.join(".","art","pixel","favicon.ico")) 
 
 #Fonts
 fullScreenWrap = round(0.001298868*resMult)
 
 menuSizeMedium = round(0.0000423*resMult)
-menuBtnFont = ('comic sans ms',menuSizeMedium)
+menuBtnFont = ('default',menuSizeMedium)
 
 menuSizeLarge = round(0.00006887*resMult)
-menuTitleFont = ('comic sans ms',menuSizeLarge)
+menuTitleFont = ('default',menuSizeLarge)
 
 infoFontLarge = round(0.000050862*resMult)
-largeInfoFont = ('comic sans ms',infoFontLarge)
+largeInfoFont = ('default',infoFontLarge)
 
 #Game vars
 global gameClockHour
@@ -55,6 +56,10 @@ global gameDays
 gameDays = 0
 
 #Game Functions
+def makeInfoWindow(scenario):
+        t = tk.Toplevel()
+        t.wm_title("Info Wnidow")
+
 def newFrame(background):
     retFrame = tk.Frame(root,bg=background)
     retFrame.grid(row=0,column=0, sticky="nsew")
@@ -87,22 +92,48 @@ def mainCamp(oldFrame):
 
     #Color management based on time of day
     backgroundC = 'black'
-    if(gameClockHour >= 6 and gameClockHour < 19): # Do Daytime
-        backgroundC = 'black'
+    foregroundC = 'white'
+    if(not (gameClockHour >= 6 and gameClockHour < 19)): # Do Daytime TODO: Change back from inverse
+        backgroundC = 'dark turquoise'
+        foregroundC = 'black'
     else: #Do Nightime
         backgroundC = 'black'
+        foregroundC = 'white'
 
     frame = newFrame(backgroundC)
-    def siwtchScreen():
+    def siwtchScreen(screen):
         return
-
-    sceneTitle = tk.Label(frame,bg=backgroundC,fg='white',font=largeInfoFont,text="Main Camp")
+    #Widget definitions
+    sceneTitle = tk.Label(
+                        frame,
+                        bg=backgroundC,
+                        fg=foregroundC,
+                        font=largeInfoFont,
+                        text="Main Camp"
+                        )
+    sleepBtn = tk.Button(
+                        frame,
+                        bg=backgroundC,
+                        fg=foregroundC,
+                        font=largeInfoFont,
+                        text="Sleep",
+                        command=campSleep
+                        )
     
     #Formatting
     sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
     sceneTitle.update()
     sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
+
+    sleepBtn.place(x=resX/2)
+    sleepBtn.update()
+    sleepBtn.place(x=(resX-sleepBtn.winfo_width()),y=0)
+#TODO: finish working on button placement
+
     
+def campSleep():
+    makeInfoWindow(1)
+
 
 #Setting up info screen
 def startInfo(oldFrame):
@@ -111,7 +142,7 @@ def startInfo(oldFrame):
     def switchScreen():
         mainCamp(frame)
     
-    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to reference sizing and new lines")
+    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to test sizing and new lines")
     startBtn = tk.Button(frame,command=switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
     #Grid stuff
     infoLabel.grid()
