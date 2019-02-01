@@ -64,19 +64,19 @@ def newFrame(background):
     retFrame.tkraise()
     return retFrame
 
-    def addTime(time):
-        global gameClockHour
-        global gameClockMinute
-        global gameDays
-        gameClockMinute += time
-        while (gameClockHour > 23 or gameClockMinute > 59):
-            if((gameClockMinute - 60) <= 0): #If more than 60 minutes then add one hour
-                gameClockHour += 1
-                gameClockMinute %= 60
-            if((gameClockHour - 24) <= 0): #If more than 23 hours then add one day
-                gameDays += 1
-                gameClockHour %= 24
-        return
+def addTime(time):
+    global gameClockHour
+    global gameClockMinute
+    global gameDays
+    gameClockMinute += time
+    while (gameClockHour > 23 or gameClockMinute > 59):
+        if((gameClockMinute - 60) <= 0): #If more than 60 minutes then add one hour
+            gameClockHour += 1
+            gameClockMinute %= 60
+        if((gameClockHour - 24) <= 0): #If more than 23 hours then add one day
+            gameDays += 1
+            gameClockHour %= 24
+    return
 
 
 ##Scene Functions
@@ -99,7 +99,7 @@ def mainCamp(oldFrame):
     sceneTitle = tk.Label(frame,bg=backgroundC,fg='white',font=largeInfoFont,text="Main Camp")
     
     #Formatting
-    sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Place at middle of screen, top
+    sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
     sceneTitle.update()
     sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
     
