@@ -1,7 +1,9 @@
 import tkinter as tk
 import os as os
 #import csv
+##end imports
 
+#TODO: Replace globals with python-style variable use
 
 #RGB to tkinter readable
 def _from_rgb(rgb):
@@ -47,6 +49,9 @@ menuTitleFont = ('default',menuSizeLarge)
 infoFontLarge = round(0.000050862*resMult)
 largeInfoFont = ('default',infoFontLarge)
 
+campSizeMedium = round(0.0000454389574*resMult)
+campButtonFont = ('default',campSizeMedium)
+
 #Game vars
 global gameClockHour
 gameClockHour = 6
@@ -54,6 +59,8 @@ global gameClockMinute
 gameClockMinute = 0
 global gameDays
 gameDays = 0
+global campCreated
+campCreated = 1
 
 #Game Functions
 def makeInfoWindow(scenario):
@@ -99,41 +106,103 @@ def mainCamp(oldFrame):
     else: #Do Nightime
         backgroundC = 'black'
         foregroundC = 'white'
-
-    frame = newFrame(backgroundC)
+    global campCreated
+    
     def siwtchScreen(screen):
         return
-    #Widget definitions
-    sceneTitle = tk.Label(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=largeInfoFont,
-                        text="Main Camp"
-                        )
-    sleepBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=largeInfoFont,
-                        text="Sleep",
-                        command=campSleep
-                        )
-    
-    #Formatting
-    sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
-    sceneTitle.update()
-    sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
+    if (campCreated == 1):
+        frame = newFrame(backgroundC)
+        #Widget definitions
+        butnFont = campButtonFont
+        sceneTitle = tk.Label(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Main Camp"
+                            )
+        sleepBtn = tk.Button(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Sleep",
+                            command=campSleep
+                            )
+        storageBtn = tk.Button(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Storage",
+                            command=campStorage
+                            )
+        equipBtn = tk.Button(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Equipment",
+                            command=campEquip
+                            )
+        manageBtn = tk.Button(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Manage",
+                            command=campManage
+                            )
+        epxloreBtn = tk.Button(
+                            frame,
+                            bg=backgroundC,
+                            fg=foregroundC,
+                            font=butnFont,
+                            text="Explore",
+                            command=campExplore
+                            )
 
-    sleepBtn.place(x=resX/2)
-    sleepBtn.update()
-    sleepBtn.place(x=(resX-sleepBtn.winfo_width()),y=0)
-#TODO: finish working on button placement
+        #Formatting
+        def placeBelow(lastButton):
+            lastButton.update()
+            spaceBelow = lastButton.winfo_y()
+            spaceBelow += lastButton.winfo_height()
+            spaceBelow += inbetweenSpace
+            #print ("Placing {} pixels below".format(spaceBelow))
+            return spaceBelow
+            
+        def findRightX(butn): #Get the x position of a widget wanted to allign to right y border
+            xSpaceAmount = -5 #Move away from border this many pixels
+            butn.place(x=resX/2)
+            butn.update() #place and update so can get dimesnions
+            return ((resX-butn.winfo_width())+xSpaceAmount)
 
-    
+        inbetweenSpace = 10
+
+
+        sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
+        sceneTitle.update()
+        sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
+
+        #Right side button placement
+        sleepBtn.place(x=findRightX(sleepBtn),y=0+inbetweenSpace)
+        storageBtn.place(x=findRightX(storageBtn),y=placeBelow(sleepBtn))
+        equipBtn.place(x=findRightX(equipBtn),y=placeBelow(storageBtn))
+        manageBtn.place(x=findRightX(manageBtn),y=placeBelow(equipBtn))
+        epxloreBtn.place(x=findRightX(epxloreBtn),y=placeBelow(manageBtn))
+
+        #TODO: finish working on button placement
+
 def campSleep():
     makeInfoWindow(1)
-
+def campStorage():
+    makeInfoWindow(2)
+def campEquip():
+    makeInfoWindow(3)
+def campManage():
+    makeInfoWindow(4)
+def campExplore():
+    makeInfoWindow(5)
 
 #Setting up info screen
 def startInfo(oldFrame):
