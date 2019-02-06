@@ -59,14 +59,19 @@ campButtonFont = ('default',campSizeMedium)
 global gameClockHour
 gameClockHour = 6
 global gameClockMinute 
-gameClockMinute = 0
+gameClockMinute = 30
 global gameDays
 gameDays = 0
 global campCreated
 campCreated = 0
 
 #Game Functions
-def makeInfoWindow(scenario):
+def makeInfoWindow(scenario:
+    global gameClockHour
+    global gameClockMinute
+    if scenario == 1: #TODO: Finish sleep button framework
+        addTime(15)
+    else:
         t = tk.Toplevel()
         t.wm_title("Info Wnidow")
 
@@ -79,16 +84,16 @@ def newFrame(background):
     retFrame.tkraise()
     return retFrame
 
-def addTime(time):
+def addTime(time=0):
     global gameClockHour
     global gameClockMinute
     global gameDays
     gameClockMinute += time
     while (gameClockHour > 23 or gameClockMinute > 59):
-        if((gameClockMinute - 60) <= 0): #If more than 60 minutes then add one hour
+        if((gameClockMinute - 60) >= 0): #If more than 60 minutes then add one hour
             gameClockHour += 1
             gameClockMinute %= 60
-        if((gameClockHour - 24) <= 0): #If more than 23 hours then add one day
+        if((gameClockHour - 24) >= 0): #If more than 23 hours then add one day
             gameDays += 1
             gameClockHour %= 24
     return
@@ -99,7 +104,7 @@ def addTime(time):
 #Setting up the main game screen
 def mainCamp(oldFrame):
     # oldFrame.grid_froget()
-
+    addTime()
     #Color management based on time of day
     backgroundC = 'black'
     foregroundC = 'white'
@@ -116,6 +121,19 @@ def mainCamp(oldFrame):
 
     campCreated = 1
     frame = newFrame(backgroundC)
+    #Widget functions
+    def campSleep():
+        makeInfoWindow(1)
+        timeDisplay.update()
+    def campStorage():
+        makeInfoWindow(2)
+    def campEquip():
+        makeInfoWindow(3)
+    def campManage():
+        makeInfoWindow(4)
+    def campExplore():
+        makeInfoWindow(5)
+
     #Widget definitions
     butnFont = campButtonFont
     sceneTitle = tk.Label(
@@ -174,29 +192,32 @@ def mainCamp(oldFrame):
         text="Day {}".format(gameDays)
         )
     #Time
-    if (gameClockMinute != 0):
-        timeDisplay = tk.Label(
-            frame,
-            bg=backgroundC,
-            fg=foregroundC,
-            font=butnFont,
-            text="Time: {}:{}".format(gameClockHour,gameClockMinute)
-            )
+    if gameClockHour == 0:
+        gameClockHourStr = "00"
+    elif gameClockHour < 10:
+        gameClockHourStr = "0"+str(gameClockHour)
     else:
-        timeDisplay = tk.Label(
-            frame,
-            bg=backgroundC,
-            fg=foregroundC,
-            font=butnFont,
-            text="Time: {}:{}0".format(gameClockHour,gameClockMinute)
-            )
+        gameClockHourStr = str(gameClockHour)
+
+    if gameClockMinute < 10:
+        gameClockMinuteStr = str(gameClockMinute)+"0"
+    else:   
+        gameClockMinuteStr = str(gameClockMinute)
+
+    timeDisplay = tk.Label(
+        frame,
+        bg=backgroundC,
+        fg=foregroundC,
+        font=butnFont,
+        text="Time: {}:{}".format(gameClockHourStr,gameClockMinuteStr)
+        )
     #End time stuff
     campDefDisplay = tk.Label(
         frame,
         bg=backgroundC,
         fg=foregroundC,
         font=butnFont,
-        text="Defence: {}".format("3")  #TODO: Implement camp defence
+        text="Defense: {}".format("3")  #TODO: Implement camp defence
         )
     sizeDisplay = tk.Label(
         frame,
@@ -255,18 +276,7 @@ def mainCamp(oldFrame):
     campDefDisplay.place(x=leftXBuffer,y=placeBelow(timeDisplay))
     sizeDisplay.place(x=leftXBuffer,y=placeBelow(campDefDisplay))
     moneyDisplay.place(x=leftXBuffer,y=placeBelow(sizeDisplay))
-    #TODO: finish the template
-
-def campSleep():
-    makeInfoWindow(1)
-def campStorage():
-    makeInfoWindow(2)
-def campEquip():
-    makeInfoWindow(3)
-def campManage():
-    makeInfoWindow(4)
-def campExplore():
-    makeInfoWindow(5)
+    #TODO: finish the formatting for prettiness
 
 #Setting up info screen
 def startInfo(oldFrame):
