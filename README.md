@@ -2,7 +2,7 @@
 Bawk bawk.
 
 # _Change Log_  
-# V 0.4
+* V 0.4
 -Stopping the old 'meme' version system  
 -Current version system goes (playable version).(num of updates in this playable version)  
 -Almost completely reformatted my code to be more object orientated  
