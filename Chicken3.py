@@ -235,7 +235,8 @@ class MainCamp:
         self.timeToString()
         print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
         self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
-        self.timeDisplay.update()
+        self.dayDisplay.config(text="Day {}".format(self.gameDays))
+        # self.timeDisplay.update()
         print("Ran")
     def campStorage(self):
         print("OOF")
