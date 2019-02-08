@@ -1,13 +1,5 @@
 import tkinter as tk
 import os as os
-#import csv
-##end imports
-
-#TODO: Replace globals with python-style variable use
-
-#RGB to tkinter readable
-def _from_rgb(rgb):
-    return "#%02x%02x%02x" % rgb
 
 #Tk init
 root = tk.Tk()
@@ -55,26 +47,6 @@ largeInfoFont = ('default',infoFontLarge)
 campSizeMedium = round(0.0000454389574*resMult)
 campButtonFont = ('default',campSizeMedium)
 
-#Game vars
-global gameClockHour
-gameClockHour = 6
-global gameClockMinute 
-gameClockMinute = 30
-global gameDays
-gameDays = 0
-global campCreated
-campCreated = 0
-
-#Game Functions
-def makeInfoWindow(scenario):
-    global gameClockHour
-    global gameClockMinute
-    if scenario == 1: #TODO: Finish sleep button framework
-        addTime(15)
-    else:
-        t = tk.Toplevel()
-        t.wm_title("Info Wnidow")
-
 def newFrame(background):
     retFrame = tk.Frame(root,bg=background)
     retFrame.grid(row=0,column=0, sticky="nsew")
@@ -84,248 +56,226 @@ def newFrame(background):
     retFrame.tkraise()
     return retFrame
 
-def addTime(time=0):
-    global gameClockHour
-    global gameClockMinute
-    global gameDays
-    gameClockMinute += time
-    while (gameClockHour > 23 or gameClockMinute > 59):
-        if((gameClockMinute - 60) >= 0): #If more than 60 minutes then add one hour
-            gameClockHour += 1
-            gameClockMinute %= 60
-        if((gameClockHour - 24) >= 0): #If more than 23 hours then add one day
-            gameDays += 1
-            gameClockHour %= 24
-    return
-
-
-##Scene Functions
-
-#Setting up the main game screen
-def mainCamp(oldFrame):
-    #Vars for screen                            
-    global campCreated
-    global gameClockHour
-    global gameClockMinute
-    gameClockHourStr = ""
-    gameClockMinuteStr = ""
-
-    # oldFrame.grid_froget()
-    addTime()
-    #Color management based on time of day
-    backgroundC = 'black'
-    foregroundC = 'white'
-    if(not (gameClockHour >= 6 and gameClockHour < 19)): #Do Daytime #TODO: Change back from inverse
-        backgroundC = 'dark turquoise'
-        foregroundC = 'black'
-    else: #Do Nightime
-        backgroundC = 'black'
-        foregroundC = 'white'
-
-    def siwtchScreen(screen):
-        return
-
-    campCreated = 1
-    frame = newFrame(backgroundC)
-    #Widget functions
-    def timeToString():
-        if gameClockHour == 0:
-            gameClockHourStr = "00"
-        elif gameClockHour < 10:
-            gameClockHourStr = "0"+str(gameClockHour)
-        else:  
-            gameClockHourStr = str(gameClockHour)
-
-        if gameClockMinute < 10:
-            gameClockMinuteStr = str(gameClockMinute)+"0"
-        else:   
-            gameClockMinuteStr = str(gameClockMinute)
-        return [gameClockHourStr,gameClockMinuteStr]
-
-    def campSleep():
-
-        makeInfoWindow(1)
-        print("Slept, hour now {} and minute now {}".format(gameClockHourStr,gameClockMinuteStr))
-        timeDisplay.config(text="Time: {}:{}".format(gameClockHourStr,gameClockMinuteStr))
-        timeDisplay.update()
-        # print("Ran")
-    def campStorage():
-        makeInfoWindow(2)
-    def campEquip():
-        makeInfoWindow(3)
-    def campManage():
-        makeInfoWindow(4)
-    def campExplore():
-        makeInfoWindow(5)
-
-    #Widget definitions
-    butnFont = campButtonFont
-    sceneTitle = tk.Label(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Main Camp"
-                        )
-    sleepBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Sleep",
-                        command=campSleep
-                        )
-    storageBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Storage",
-                        command=campStorage
-                        )
-    equipBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Equipment",
-                        command=campEquip
-                        )
-    manageBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Manage",
-                        command=campManage
-                        )
-    epxloreBtn = tk.Button(
-                        frame,
-                        bg=backgroundC,
-                        fg=foregroundC,
-                        font=butnFont,
-                        text="Explore",
-                        command=campExplore
-                        )
+class StartMenu:
+    def __init__(self,master):
+        self.root = master
+        self.frame = newFrame('black')
+        #Buttons
+        self.startGameBtn = tk.Button(self.frame, font=menuBtnFont, text="Start Game",command=self.switchScreen,bg='gray50',foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
     
-    dayDisplay = tk.Label(
-        frame,
-        bg=backgroundC,
-        fg=foregroundC,
-        font=butnFont,
-        text="Day {}".format(gameDays)
-        )
-    #Time
-    
-    strAry = timeToString()
-    gameClockHourStr = strAry[0]
-    gameClockMinuteStr = strAry[1]
-    timeDisplay = tk.Label(
-        frame,
-        bg=backgroundC,
-        fg=foregroundC,
-        font=butnFont,
-        text="Time: {}:{}".format(gameClockHourStr,gameClockMinuteStr)
-        )
-    #End time stuff
-    campDefDisplay = tk.Label(
-        frame,
-        bg=backgroundC,
-        fg=foregroundC,
-        font=butnFont,
-        text="Defense: {}".format("3")  #TODO: Implement camp defense
-        )
-    sizeDisplay = tk.Label(
-        frame,
-        bg=backgroundC,
-        fg=foregroundC,
-        font=butnFont,
-        text="Size: {} members".format("3") #TODO: Implement camp size
-        )
-    moneyDisplay = tk.Label(
-        frame,
-        bg=backgroundC,
-        fg=foregroundC,
-        font=butnFont,
-        text="Money: {} coins".format("3") #TODO: Implement money
-        )
+        #Lables / Titles
+        self.mMenuTitle = tk.Label(self.frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg='black')
 
-    #Formatting
-    def placeBelow(lastButton):
-        lastButton.update()
-        spaceBelow = lastButton.winfo_y()
-        spaceBelow += lastButton.winfo_height()
-        spaceBelow += inbetweenSpace
-        #print ("Placing {} pixels below".format(spaceBelow))
-        return spaceBelow
+        #Grid formatting
+        self.mMenuTitle.grid()
+        self.startGameBtn.grid()
+    def switchScreen(self):
+        self.transitionFrame = newFrame('black')
+        self.app = StartInfo(self.transitionFrame)
+
+class StartInfo:
+    def __init__(self, master):
+        self.frame = newFrame('black')
+        self.frame.tkraise()
+        self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to test sizing and new lines")
+        self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
+        #Grid stuff
+        self.infoLabel.grid()
+        self.startBtn.grid()
+    def switchScreen(self):
+        self.app = MainCamp([""])
+
+class MainCamp:
+    def __init__(self, gameInfoAry):
+        #Camp site information
+        # self.gameAry = gameInfoAry
+        self.butnFont = campButtonFont
+        self.gameClockHourStr = ""
+        self.gameClockMinuteStr = ""
+        self.gameClockHour = 6
+        self.gameClockMinute = 30
+        self.gameDays = 3
+        #Set the time of day frame color
+        self.backgroundC = 'black'
+        self.foregroundC = 'white'
+        if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Change back from inverse
+            self.backgroundC = 'dark turquoise'
+            self.foregroundC = 'black'
+        else: #Do Nightime
+            self.backgroundC = 'black'
+            self.foregroundC = 'white'
+        self.frame = newFrame(self.backgroundC)
+        self.bringToFront()
         
-    def findRightX(butn): #Get the x position of a widget wanted to allign to right y border
-        xSpaceAmount = -5 #Move away from border this many pixels
+        #Right Side Buttons
+        self.sceneTitle = tk.Label(
+                           self. frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Main Camp"
+                            )
+        self.sleepBtn = tk.Button(
+                            self.frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Sleep",
+                            command=self.campSleep
+                            )
+        self.storageBtn = tk.Button(
+                            self.frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Storage",
+                            command=self.campStorage
+                            )
+        self.equipBtn = tk.Button(
+                            self.frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Equipment",
+                            command=self.campEquip
+                            )
+        self.manageBtn = tk.Button(
+                            self.frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Manage",
+                            command=self.campManage
+                            )
+        self.epxloreBtn = tk.Button(
+                            self.frame,
+                            bg=self.backgroundC,
+                            fg=self.foregroundC,
+                            font=self.butnFont,
+                            text="Explore",
+                            command=self.campExplore
+                            )
+        #Right Side Stuff
+        self.dayDisplay = tk.Label(
+            self.frame,
+            bg=self.backgroundC,
+            fg=self.foregroundC,
+            font=self.butnFont,
+            text="Day {}".format(self.gameDays)
+            )
+        #Time
+        self.timeToString()
+        self. timeDisplay = tk.Label(
+            self.frame,
+            bg=self.backgroundC,
+            fg=self.foregroundC,
+            font=self.butnFont,
+            text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr)
+            )
+        #End time stuff
+        self.campDefDisplay = tk.Label(
+            self.frame,
+            bg=self.backgroundC,
+            fg=self.foregroundC,
+            font=self.butnFont,
+            text="Defense: {}".format("3")  #TODO: Implement camp defense
+            )
+        self.sizeDisplay = tk.Label(
+            self.frame,
+            bg=self.backgroundC,
+            fg=self.foregroundC,
+            font=self.butnFont,
+            text="Size: {} members".format("3") #TODO: Implement camp size
+            )
+        self.moneyDisplay = tk.Label(
+            self.frame,
+            bg=self.backgroundC,
+            fg=self.foregroundC,
+            font=self.butnFont,
+            text="Money: {} coins".format("3") #TODO: Implement money
+            )
+
+        #Placing Stuff
+        self.inbetweenSpace = 10
+        self.leftXBuffer = 5
+
+        self.sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
+        self.sceneTitle.update()
+        self.sceneTitle.place(x=((resX/2)-(self.sceneTitle.winfo_width()/2)),y=0)
+
+        #Right side button placement
+        self.sleepBtn.place(x=self.findRightX(self.sleepBtn),y=10+self.inbetweenSpace)
+        self.storageBtn.place(x=self.findRightX(self.storageBtn),y=self.placeBelow(self.sleepBtn))
+        self.equipBtn.place(x=self.findRightX(self.equipBtn),y=self.placeBelow(self.storageBtn))
+        self.manageBtn.place(x=self.findRightX(self.manageBtn),y=self.placeBelow(self.equipBtn))
+        self.epxloreBtn.place(x=self.findRightX(self.epxloreBtn),y=self.placeBelow(self.manageBtn))
+
+        #Left side info placement
+        self.dayDisplay.place(x=self.leftXBuffer,y=10+self.inbetweenSpace)
+        self.timeDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.dayDisplay))
+        self.campDefDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.timeDisplay))
+        self.sizeDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.campDefDisplay))
+        self.moneyDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.sizeDisplay))
+        #TODO: finish the formatting for prettiness
+
+    def timeToString(self):
+        if self.gameClockHour == 0:
+            self.gameClockHourStr = "00"
+        elif self.gameClockHour < 10:
+            self.gameClockHourStr = "0"+str(self.gameClockHour)
+        else:  
+            self.gameClockHourStr = str(self.gameClockHour)
+
+        if self.gameClockMinute < 10:
+            self.gameClockMinuteStr = str(self.gameClockMinute)+"0"
+        else:   
+            self.gameClockMinuteStr = str(self.gameClockMinute)
+    def campSleep(self):
+        self.addTime(360)
+        self.timeToString()
+        print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        self.timeDisplay.update()
+        print("Ran")
+    def campStorage(self):
+        print("OOF")
+    def campEquip(self):
+        print("OOF")
+    def campManage(self):
+        print("OOF")
+    def campExplore(self):
+        print("OOF")
+    def bringToFront(self): #Return to camp
+        self.frame.tkraise()
+    def placeBelow(self,lastButton):
+        lastButton.update()
+        self.spaceBelow = lastButton.winfo_y()
+        self.spaceBelow += lastButton.winfo_height()
+        self.spaceBelow += self.inbetweenSpace
+        #print ("Placing {} pixels below".format(spaceBelow))
+        return self.spaceBelow       
+    def findRightX(self,butn): #Get the x position of a widget wanted to allign to right y border
+        self.xSpaceAmount = -5 #Move away from border this many pixels
         butn.place(x=resX/2)
         butn.update() #place and update so can get dimesnions
-        return ((resX-butn.winfo_width())+xSpaceAmount)
+        return ((resX-butn.winfo_width())+self.xSpaceAmount)
+    def addTime(self,time=0):
+        self.gameClockMinute += time
+        while (self.gameClockHour > 23 or self.gameClockMinute > 59):
+            if((self.gameClockMinute - 60) >= 0): #If more than 60 minutes then add one hour
+                self.gameClockHour += 1
+                self.gameClockMinute -= 60
+            if((self.gameClockHour - 24) >= 0): #If more than 23 hours then add one day
+                self.gameDays += 1
+                self.gameClockHour -= 24
 
-    # def findLeftX(butn): #Get the x position of a widget wanted to allign to left y border
-    #     xSpaceAmount = 5 #Move away from border this many pixels
-    #     butn.place(x=resX/2)
-    #     butn.update() #place and update so can get dimesnions
-    #     return (butn.winfo_width()-xSpaceAmount)
-
-    inbetweenSpace = 10
-
-
-    sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
-    sceneTitle.update()
-    sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0) #Have to double run so that I can get size and then place it based upon its size
-
-    #Right side button placement
-    sleepBtn.place(x=findRightX(sleepBtn),y=10+inbetweenSpace)
-    storageBtn.place(x=findRightX(storageBtn),y=placeBelow(sleepBtn))
-    equipBtn.place(x=findRightX(equipBtn),y=placeBelow(storageBtn))
-    manageBtn.place(x=findRightX(manageBtn),y=placeBelow(equipBtn))
-    epxloreBtn.place(x=findRightX(epxloreBtn),y=placeBelow(manageBtn))
-
-    #Left side button placement
-    leftXBuffer = 5
-    dayDisplay.place(x=leftXBuffer,y=10+inbetweenSpace)
-    timeDisplay.place(x=leftXBuffer,y=placeBelow(dayDisplay))
-    campDefDisplay.place(x=leftXBuffer,y=placeBelow(timeDisplay))
-    sizeDisplay.place(x=leftXBuffer,y=placeBelow(campDefDisplay))
-    moneyDisplay.place(x=leftXBuffer,y=placeBelow(sizeDisplay))
-    #TODO: finish the formatting for prettiness
-
-#Setting up info screen
-def startInfo(oldFrame):
-    oldFrame.grid_forget()
-    frame = newFrame('black')
-    def switchScreen():
-        mainCamp(frame)
-    
-    infoLabel = tk.Label(frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to test sizing and new lines")
-    startBtn = tk.Button(frame,command=switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
-    #Grid stuff
-    infoLabel.grid()
-    startBtn.grid()
-
-#Setting up intro screen
-def startMenu():
-    frame = newFrame('black')
-    def switchScreen():
-        startInfo(frame)
+    # def makeInfoWindow(self,scenario):
+    #     print("oof")
 
 
-    #Buttons
-    startGameBtn = tk.Button(frame, font=menuBtnFont, text="Start Game",command=switchScreen,bg='gray50',foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
-    
-    #Lables / Titles
-    mMenuTitle = tk.Label(frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg='black')
+def main():
+    app = StartMenu(root)
+    root.mainloop()
 
-    #Grid formatting
-    mMenuTitle.grid()
-    startGameBtn.grid()
-
-#Init stuff
-startMenu()
-
-#Start loop
-root.mainloop()
+if __name__ == '__main__':
+    main()
