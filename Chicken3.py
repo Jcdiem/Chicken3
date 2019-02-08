@@ -66,7 +66,7 @@ global campCreated
 campCreated = 0
 
 #Game Functions
-def makeInfoWindow(scenario:
+def makeInfoWindow(scenario):
     global gameClockHour
     global gameClockMinute
     if scenario == 1: #TODO: Finish sleep button framework
@@ -103,28 +103,52 @@ def addTime(time=0):
 
 #Setting up the main game screen
 def mainCamp(oldFrame):
+    #Vars for screen                            
+    global campCreated
+    global gameClockHour
+    global gameClockMinute
+    gameClockHourStr = ""
+    gameClockMinuteStr = ""
+
     # oldFrame.grid_froget()
     addTime()
     #Color management based on time of day
     backgroundC = 'black'
     foregroundC = 'white'
-    if(not (gameClockHour >= 6 and gameClockHour < 19)): # Do Daytime TODO: Change back from inverse
+    if(not (gameClockHour >= 6 and gameClockHour < 19)): #Do Daytime #TODO: Change back from inverse
         backgroundC = 'dark turquoise'
         foregroundC = 'black'
     else: #Do Nightime
         backgroundC = 'black'
         foregroundC = 'white'
-    global campCreated
-    
+
     def siwtchScreen(screen):
         return
 
     campCreated = 1
     frame = newFrame(backgroundC)
     #Widget functions
+    def timeToString():
+        if gameClockHour == 0:
+            gameClockHourStr = "00"
+        elif gameClockHour < 10:
+            gameClockHourStr = "0"+str(gameClockHour)
+        else:  
+            gameClockHourStr = str(gameClockHour)
+
+        if gameClockMinute < 10:
+            gameClockMinuteStr = str(gameClockMinute)+"0"
+        else:   
+            gameClockMinuteStr = str(gameClockMinute)
+        return [gameClockHourStr,gameClockMinuteStr]
+
     def campSleep():
+
         makeInfoWindow(1)
+        print("Slept, hour now {} and minute now {}".format(gameClockHourStr,gameClockMinuteStr))
+        timeDisplay.config(text="Time: {}:{}".format(gameClockHourStr,gameClockMinuteStr))
         timeDisplay.update()
+        # print("Ran")
     def campStorage():
         makeInfoWindow(2)
     def campEquip():
@@ -192,18 +216,10 @@ def mainCamp(oldFrame):
         text="Day {}".format(gameDays)
         )
     #Time
-    if gameClockHour == 0:
-        gameClockHourStr = "00"
-    elif gameClockHour < 10:
-        gameClockHourStr = "0"+str(gameClockHour)
-    else:
-        gameClockHourStr = str(gameClockHour)
-
-    if gameClockMinute < 10:
-        gameClockMinuteStr = str(gameClockMinute)+"0"
-    else:   
-        gameClockMinuteStr = str(gameClockMinute)
-
+    
+    strAry = timeToString()
+    gameClockHourStr = strAry[0]
+    gameClockMinuteStr = strAry[1]
     timeDisplay = tk.Label(
         frame,
         bg=backgroundC,
@@ -217,7 +233,7 @@ def mainCamp(oldFrame):
         bg=backgroundC,
         fg=foregroundC,
         font=butnFont,
-        text="Defense: {}".format("3")  #TODO: Implement camp defence
+        text="Defense: {}".format("3")  #TODO: Implement camp defense
         )
     sizeDisplay = tk.Label(
         frame,
