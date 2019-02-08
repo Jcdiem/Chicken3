@@ -75,20 +75,20 @@ class StartMenu:
 
 class StartInfo:
     def __init__(self, master):
-        self.frame = master
+        self.frame = newFrame('black')
+        self.frame.tkraise()
         self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to test sizing and new lines")
         self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
         #Grid stuff
         self.infoLabel.grid()
         self.startBtn.grid()
     def switchScreen(self):
-        print("OOF")
+        self.app = MainCamp([""])
 
 class MainCamp:
-    def __init__(self, master, gameInfoAry):
+    def __init__(self, gameInfoAry):
         #Camp site information
-        self.gameAry = gameInfoAry
-        self.frame = master
+        # self.gameAry = gameInfoAry
         self.butnFont = campButtonFont
         self.gameClockHourStr = ""
         self.gameClockMinuteStr = ""
@@ -104,6 +104,9 @@ class MainCamp:
         else: #Do Nightime
             self.backgroundC = 'black'
             self.foregroundC = 'white'
+        self.frame = newFrame(self.backgroundC)
+        self.bringToFront()
+        
         #Right Side Buttons
         self.sceneTitle = tk.Label(
                            self. frame,
@@ -170,21 +173,21 @@ class MainCamp:
             text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr)
             )
         #End time stuff
-        campDefDisplay = tk.Label(
+        self.campDefDisplay = tk.Label(
             self.frame,
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
             text="Defense: {}".format("3")  #TODO: Implement camp defense
             )
-        sizeDisplay = tk.Label(
+        self.sizeDisplay = tk.Label(
             self.frame,
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
             text="Size: {} members".format("3") #TODO: Implement camp size
             )
-        moneyDisplay = tk.Label(
+        self.moneyDisplay = tk.Label(
             self.frame,
             bg=self.backgroundC,
             fg=self.foregroundC,
@@ -208,7 +211,6 @@ class MainCamp:
         self.epxloreBtn.place(x=self.findRightX(self.epxloreBtn),y=self.placeBelow(self.manageBtn))
 
         #Left side info placement
-        leftXBuffer = 5
         self.dayDisplay.place(x=self.leftXBuffer,y=10+self.inbetweenSpace)
         self.timeDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.dayDisplay))
         self.campDefDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.timeDisplay))
@@ -229,7 +231,12 @@ class MainCamp:
         else:   
             self.gameClockMinuteStr = str(self.gameClockMinute)
     def campSleep(self):
-        print("OOF")
+        self.addTime(360)
+        self.timeToString()
+        print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        self.timeDisplay.update()
+        print("Ran")
     def campStorage(self):
         print("OOF")
     def campEquip(self):
@@ -246,16 +253,28 @@ class MainCamp:
         self.spaceBelow += lastButton.winfo_height()
         self.spaceBelow += self.inbetweenSpace
         #print ("Placing {} pixels below".format(spaceBelow))
-        return self.spaceBelow
-        
+        return self.spaceBelow       
     def findRightX(self,butn): #Get the x position of a widget wanted to allign to right y border
         self.xSpaceAmount = -5 #Move away from border this many pixels
         butn.place(x=resX/2)
         butn.update() #place and update so can get dimesnions
         return ((resX-butn.winfo_width())+self.xSpaceAmount)
+    def addTime(self,time=0):
+        self.gameClockMinute += time
+        while (self.gameClockHour > 23 or self.gameClockMinute > 59):
+            if((self.gameClockMinute - 60) >= 0): #If more than 60 minutes then add one hour
+                self.gameClockHour += 1
+                self.gameClockMinute -= 60
+            if((self.gameClockHour - 24) >= 0): #If more than 23 hours then add one day
+                self.gameDays += 1
+                self.gameClockHour -= 24
+
+    # def makeInfoWindow(self,scenario):
+    #     print("oof")
+
 
 def main():
-#    app = StartMenu(root)
+    app = StartMenu(root)
     root.mainloop()
 
 if __name__ == '__main__':
