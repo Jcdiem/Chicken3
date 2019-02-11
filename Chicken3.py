@@ -233,19 +233,23 @@ class MainCamp:
     def campSleep(self):
         self.addTime(360)
         self.timeToString()
-        print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        # print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
         self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
         self.dayDisplay.config(text="Day {}".format(self.gameDays))
         # self.timeDisplay.update()
-        print("Ran")
+        #TODO: Make it so a daynight cycle actually works
     def campStorage(self):
         print("OOF")
+        #TODO: Make a storage screen
     def campEquip(self):
         print("OOF")
+        #TODO: make an equipping system for players and NPCs
     def campManage(self):
         print("OOF")
+        #TODO: Make a window for managing the camp
     def campExplore(self):
-        print("OOF")
+        self.addTime(90)
+        #TODO: Make a window that has the camp information
     def bringToFront(self): #Return to camp
         self.frame.tkraise()
     def placeBelow(self,lastButton):
