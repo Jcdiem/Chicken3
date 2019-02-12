@@ -60,6 +60,7 @@ class StartMenu:
     def __init__(self,master):
         self.root = master
         self.frame = newFrame('black')
+        self.campFrame = newFrame('black') #START FROM HERE
         #Buttons
         self.startGameBtn = tk.Button(self.frame, font=menuBtnFont, text="Start Game",command=self.switchScreen,bg='gray50',foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
     
@@ -77,7 +78,7 @@ class StartInfo:
     def __init__(self, master):
         self.frame = newFrame('black')
         self.frame.tkraise()
-        self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="This is a sample string to test sizing and new lines")
+        self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="\"When in doubt, nuke it out\" -Ghandi 2019 ")
         self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
         #Grid stuff
         self.infoLabel.grid()
@@ -94,16 +95,16 @@ class MainCamp:
         self.gameClockMinuteStr = ""
         self.gameClockHour = 6
         self.gameClockMinute = 30
-        self.gameDays = 3
+        self.gameDays = 0
         #Set the time of day frame color
         self.backgroundC = 'black'
         self.foregroundC = 'white'
-        if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Change back from inverse
-            self.backgroundC = 'dark turquoise'
-            self.foregroundC = 'black'
-        else: #Do Nightime
-            self.backgroundC = 'black'
-            self.foregroundC = 'white'
+        # if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Actually make this useful
+        #     self.backgroundC = 'dark turquoise'
+        #     self.foregroundC = 'black'
+        # else: #Do Nightime
+        #     self.backgroundC = 'black'
+        #     self.foregroundC = 'white'
         self.frame = newFrame(self.backgroundC)
         self.bringToFront()
         
@@ -232,10 +233,7 @@ class MainCamp:
             self.gameClockMinuteStr = str(self.gameClockMinute)
     def campSleep(self):
         self.addTime(360)
-        self.timeToString()
         # print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
-        self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
-        self.dayDisplay.config(text="Day {}".format(self.gameDays))
         # self.timeDisplay.update()
         #TODO: Make it so a daynight cycle actually works
     def campStorage(self):
@@ -273,6 +271,9 @@ class MainCamp:
             if((self.gameClockHour - 24) >= 0): #If more than 23 hours then add one day
                 self.gameDays += 1
                 self.gameClockHour -= 24
+        self.timeToString()
+        self.timeDisplay.config(text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr))
+        self.dayDisplay.config(text="Day {}".format(self.gameDays))
 
     # def makeInfoWindow(self,scenario):
     #     print("oof")
