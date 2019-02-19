@@ -56,7 +56,7 @@ def newFrame(background):
     retFrame.tkraise()
     return retFrame
 
-class Human: #TODO: Finish human framework
+class Character: #TODO: Use char with explore encoutner
     def __init__(self,level,vt = 0,st = 0,ag = 0,it = 0,ac = 0):
         self.stats = [
             vt, #0: Vitality/Health
@@ -65,21 +65,62 @@ class Human: #TODO: Finish human framework
             it, #3: Intelligence/Construction?
             ac  #4: Arcane Sense/Magic
         ]
-        self.level = level
+        self.level = level        
+        self.basePhys = (5*self.stats[1])
+        self.baseMag = (7+(2*self.stats[4]))
         self.baseHealth = (10+round(self.stats[0]*2.5+(self.stats[2]*0.5))) #10 will be the relative base for leveling
-        self.modBaseHealth = 0
-        self.modHealth = 0
+        self.modBaseHealth = self.baseHealth #Modded base health is what will have percent bonuses applied to it, but not modified from normal so the level calculations can work how they do
+                                             #(I.E. +20 max base health would go to this)
+        self.percentMax = 0.0
+        self.modHealth = 0 #Modded health is applied after percent bonuses or by percent bonuses (I.E. 20% increase to max health would be taken from base and added to this)
+        self.totalHealth = (self.modBaseHealth+self.modHealth) #Standard for calculating total health
 
+
+    def changeHealth(self,baseAmnt = 0, modIncrease = 0, percentIncrease = 1.0): #Changes the health of character
+        self.modBaseHealth = self.baseHealth
+        self.modBaseHealth += baseAmnt
+        self.modHealth += baseAmnt * percentIncrease
+        self.modHealth += modIncrease
+        self.totalHealth = (self.modBaseHealth+self.modHealth)
+    def getHealth(self): #Returns health
+        self.changeHealth() #Update health value, incase
+        return self.totalHealth
+    def getStat(self, statNum): #Returns a stat
+        #Possible stats
+        #0: Vitality/Health
+        #1: Strength/Phys Damage
+        #2: Agility/Speed
+        #3: Intelligence/Construction?
+        #4: Arcane Sense/Magic
+        return self.stats[statNum]
+
+
+
+#Frames
 class StartMenu:
     def __init__(self,master):
         self.root = master
         self.frame = newFrame('black')
         # self.campFrame = newFrame('black')
         #Buttons
-        self.startGameBtn = tk.Button(self.frame, font=menuBtnFont, text="Start Game", command=self.switchScreen, bg='gray50', fg='white smoke',activebackground='gray58',activeforeground='white smoke')
+        self.startGameBtn = tk.Button(
+            self.frame, 
+            font=menuBtnFont,
+            text="Start Game",
+            command=self.switchScreen,
+            bg='gray50',
+            fg='white smoke',
+            activebackground='gray58',
+            activeforeground='white smoke'
+        )
     
         #Lables / Titles
-        self.mMenuTitle = tk.Label(self.frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg='black')
+        self.mMenuTitle = tk.Label(
+            self.frame,
+            font=menuTitleFont,
+            text ="Chicken: The Threequel", 
+            fg='white smoke',bg='black'
+        )
 
         #Grid formatting
         self.mMenuTitle.grid()
@@ -127,14 +168,14 @@ class MainCamp:
         self.bringToFront()
         
         #Right Side Buttons
-        self.sceneTitle = tk.Label(
+        sceneTitle = tk.Label(
                             self. frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
                             text="Main Camp"
                             )
-        self.sleepBtn = tk.Button(
+        sleepBtn = tk.Button(
                             self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
@@ -142,7 +183,7 @@ class MainCamp:
                             text="Sleep",
                             command=self.campSleep
                             )
-        self.storageBtn = tk.Button(
+        storageBtn = tk.Button(
                             self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
@@ -150,7 +191,7 @@ class MainCamp:
                             text="Storage",
                             command=self.campStorage
                             )
-        self.equipBtn = tk.Button(
+        equipBtn = tk.Button(
                             self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
@@ -158,7 +199,7 @@ class MainCamp:
                             text="Equipment",
                             command=self.campEquip
                             )
-        self.manageBtn = tk.Button(
+        manageBtn = tk.Button(
                             self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
@@ -166,7 +207,7 @@ class MainCamp:
                             text="Manage",
                             command=self.campManage
                             )
-        self.epxloreBtn = tk.Button(
+        epxloreBtn = tk.Button(
                             self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
@@ -174,7 +215,7 @@ class MainCamp:
                             text="Explore",
                             command=self.campExplore
                             )
-        #Right Side Stuff
+        #Left Side Stuff
         self.dayDisplay = tk.Label(
             self.frameAry[0],
             bg=self.backgroundC,
@@ -182,7 +223,7 @@ class MainCamp:
             font=self.butnFont,
             text="Day {}".format(self.gameDays)
             )
-        #Time
+        ###Time
         self.timeToString()
         self. timeDisplay = tk.Label(
             self.frameAry[0],
@@ -191,7 +232,7 @@ class MainCamp:
             font=self.butnFont,
             text="Time: {}:{}".format(self.gameClockHourStr,self.gameClockMinuteStr)
             )
-        #End time stuff
+        ###End time stuff
         self.campDefDisplay = tk.Label(
             self.frameAry[0],
             bg=self.backgroundC,
@@ -216,35 +257,35 @@ class MainCamp:
 
         #Placing Stuff
         self.inbetweenSpace = 10
-        self.leftXBuffer = 5
 
-        self.sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
-        self.sceneTitle.update()
-        self.sceneTitle.place(x=((resX/2)-(self.sceneTitle.winfo_width()/2)),y=0)
+        sceneTitle.place(x=(resX/2)) #Place at middle of screen, top
+        sceneTitle.update()
+        sceneTitle.place(x=((resX/2)-(sceneTitle.winfo_width()/2)),y=0)
 
         #Right side button placement
-        self.sleepBtn.place(x=self.findRightX(self.sleepBtn),y=10+self.inbetweenSpace)
-        self.storageBtn.place(x=self.findRightX(self.storageBtn),y=self.placeBelow(self.sleepBtn))
-        self.equipBtn.place(x=self.findRightX(self.equipBtn),y=self.placeBelow(self.storageBtn))
-        self.manageBtn.place(x=self.findRightX(self.manageBtn),y=self.placeBelow(self.equipBtn))
-        self.epxloreBtn.place(x=self.findRightX(self.epxloreBtn),y=self.placeBelow(self.manageBtn))
+        self.placeOnX(sleepBtn, 1, 1)
+        self.placeOnX(storageBtn, 1)
+        self.placeOnX(equipBtn, 1)
+        self.placeOnX(manageBtn, 1)
+        self.placeOnX(epxloreBtn, 1)
 
         #Left side info placement
-        self.dayDisplay.place(x=self.leftXBuffer,y=10+self.inbetweenSpace)
-        self.timeDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.dayDisplay))
-        self.campDefDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.timeDisplay))
-        self.sizeDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.campDefDisplay))
-        self.moneyDisplay.place(x=self.leftXBuffer,y=self.placeBelow(self.sizeDisplay))
+        self.placeOnX(self.dayDisplay,0,1)
+        self.placeOnX(self.dayDisplay)
+        self.placeOnX(self.timeDisplay)
+        self.placeOnX(self.campDefDisplay)
+        self.placeOnX(self.sizeDisplay)
         #TODO: finish the formatting for prettiness
 
     def timeToString(self):
+        #Hour
         if self.gameClockHour == 0:
             self.gameClockHourStr = "00"
         elif self.gameClockHour < 10:
             self.gameClockHourStr = "0"+str(self.gameClockHour)
         else:  
             self.gameClockHourStr = str(self.gameClockHour)
-
+        #Minute
         if self.gameClockMinute < 10:
             self.gameClockMinuteStr = str(self.gameClockMinute)+"0"
         else:   
@@ -266,9 +307,20 @@ class MainCamp:
     def campExplore(self):
         self.addTime(90)
         #TODO: Make a window that has location information
+        
     def bringToFront(self): #Return to camp
         self.frameAry[0].tkraise()
-    def placeBelow(self,lastButton):
+    def placeOnX(self,block,right = 0,first = 0): #Place something on left side of screen
+        leftXBuffer = 5
+        if(first != 1 and right != 1): #If (block, 0, 0)
+            block.place(x=leftXBuffer,y=self.placeBelow(block))
+        elif(first == 1 and right != 1): #If (block, 0, 1)
+            block.place(x=leftXBuffer,y=10+self.inbetweenSpace)
+        elif(first != 1 and right == 1): #If (Block, 1, 0)
+            block.place(x=self.findRightX(block),y=self.placeBelow(block))
+        else: #If (block, 1, 1)
+            block.place(x=self.findRightX(block),y=10+self.inbetweenSpace)
+    def placeBelow(self,lastButton): #Place a widget a certain amount y under
         lastButton.update()
         self.spaceBelow = lastButton.winfo_y()
         self.spaceBelow += lastButton.winfo_height()
@@ -280,7 +332,7 @@ class MainCamp:
         butn.place(x=resX/2)
         butn.update() #place and update so can get dimesnions
         return ((resX-butn.winfo_width())+self.xSpaceAmount)
-    def addTime(self,time=0):
+    def addTime(self,time=0): #Add time to the clock
         self.gameClockMinute += time
         while (self.gameClockHour > 23 or self.gameClockMinute > 59):
             if((self.gameClockMinute - 60) >= 0): #If more than 60 minutes then add one hour
