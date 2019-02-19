@@ -29,7 +29,7 @@ print("Res y is {}".format(resY))
 tk.Grid.rowconfigure(root, 0, weight=1)
 tk.Grid.columnconfigure(root, 0, weight=1)
 root.geometry(resXY)
-root.iconbitmap(os.path.join(".","art","pixel","favicon.ico")) 
+root.iconbitmap(os.path.join("art","pixel","favicon.ico")) 
 
 #Fonts
 xWrapSideBuffer = 5
@@ -56,13 +56,27 @@ def newFrame(background):
     retFrame.tkraise()
     return retFrame
 
+class Human: #TODO: Finish human framework
+    def __init__(self,level,vt = 0,st = 0,ag = 0,it = 0,ac = 0):
+        self.stats = [
+            vt, #0: Vitality/Health
+            st, #1: Strength/Phys Damage
+            ag, #2: Agility/Speed
+            it, #3: Intelligence/Construction?
+            ac  #4: Arcane Sense/Magic
+        ]
+        self.level = level
+        self.baseHealth = (10+round(self.stats[0]*2.5+(self.stats[2]*0.5))) #10 will be the relative base for leveling
+        self.modBaseHealth = 0
+        self.modHealth = 0
+
 class StartMenu:
     def __init__(self,master):
         self.root = master
         self.frame = newFrame('black')
-        self.campFrame = newFrame('black') #START FROM HERE
+        # self.campFrame = newFrame('black')
         #Buttons
-        self.startGameBtn = tk.Button(self.frame, font=menuBtnFont, text="Start Game",command=self.switchScreen,bg='gray50',foreground='white smoke',activebackground='gray58',activeforeground='white smoke')
+        self.startGameBtn = tk.Button(self.frame, font=menuBtnFont, text="Start Game", command=self.switchScreen, bg='gray50', fg='white smoke',activebackground='gray58',activeforeground='white smoke')
     
         #Lables / Titles
         self.mMenuTitle = tk.Label(self.frame, font=menuTitleFont, text ="Chicken: The Threequel", fg='white smoke',bg='black')
@@ -84,13 +98,13 @@ class StartInfo:
         self.infoLabel.grid()
         self.startBtn.grid()
     def switchScreen(self):
-        self.app = MainCamp([""])
+        self.app = MainCamp()
 
 class MainCamp:
-    def __init__(self, gameInfoAry):
+    def __init__(self):
         #Camp site information
-        # self.gameAry = gameInfoAry
         self.butnFont = campButtonFont
+        self.currency = 0
         self.gameClockHourStr = ""
         self.gameClockMinuteStr = ""
         self.gameClockHour = 6
@@ -99,25 +113,29 @@ class MainCamp:
         #Set the time of day frame color
         self.backgroundC = 'black'
         self.foregroundC = 'white'
-        # if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Actually make this useful
+        # if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Implement time background
         #     self.backgroundC = 'dark turquoise'
         #     self.foregroundC = 'black'
         # else: #Do Nightime
         #     self.backgroundC = 'black'
         #     self.foregroundC = 'white'
-        self.frame = newFrame(self.backgroundC)
+        self.frameAry = [
+            newFrame(self.backgroundC),   #0: Main screen
+            newFrame(self.backgroundC)    #1: Locations screen
+
+        ]
         self.bringToFront()
         
         #Right Side Buttons
         self.sceneTitle = tk.Label(
-                           self. frame,
+                            self. frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
                             text="Main Camp"
                             )
         self.sleepBtn = tk.Button(
-                            self.frame,
+                            self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
@@ -125,7 +143,7 @@ class MainCamp:
                             command=self.campSleep
                             )
         self.storageBtn = tk.Button(
-                            self.frame,
+                            self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
@@ -133,7 +151,7 @@ class MainCamp:
                             command=self.campStorage
                             )
         self.equipBtn = tk.Button(
-                            self.frame,
+                            self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
@@ -141,7 +159,7 @@ class MainCamp:
                             command=self.campEquip
                             )
         self.manageBtn = tk.Button(
-                            self.frame,
+                            self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
@@ -149,7 +167,7 @@ class MainCamp:
                             command=self.campManage
                             )
         self.epxloreBtn = tk.Button(
-                            self.frame,
+                            self.frameAry[0],
                             bg=self.backgroundC,
                             fg=self.foregroundC,
                             font=self.butnFont,
@@ -158,7 +176,7 @@ class MainCamp:
                             )
         #Right Side Stuff
         self.dayDisplay = tk.Label(
-            self.frame,
+            self.frameAry[0],
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
@@ -167,7 +185,7 @@ class MainCamp:
         #Time
         self.timeToString()
         self. timeDisplay = tk.Label(
-            self.frame,
+            self.frameAry[0],
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
@@ -175,25 +193,25 @@ class MainCamp:
             )
         #End time stuff
         self.campDefDisplay = tk.Label(
-            self.frame,
+            self.frameAry[0],
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
             text="Defense: {}".format("3")  #TODO: Implement camp defense
             )
         self.sizeDisplay = tk.Label(
-            self.frame,
+            self.frameAry[0],
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
             text="Size: {} members".format("3") #TODO: Implement camp size
             )
         self.moneyDisplay = tk.Label(
-            self.frame,
+            self.frameAry[0],
             bg=self.backgroundC,
             fg=self.foregroundC,
             font=self.butnFont,
-            text="Money: {} coins".format("3") #TODO: Implement money
+            text="Money: {} coins".format(self.currency) #TODO: Implement money
             )
 
         #Placing Stuff
@@ -241,15 +259,15 @@ class MainCamp:
         #TODO: Make a storage screen
     def campEquip(self):
         print("OOF")
-        #TODO: make an equipping system for players and NPCs
+        #TODO: make an equipping system (framework) for players (first) and NPCs (second)
     def campManage(self):
         print("OOF")
         #TODO: Make a window for managing the camp
     def campExplore(self):
         self.addTime(90)
-        #TODO: Make a window that has the camp information
+        #TODO: Make a window that has location information
     def bringToFront(self): #Return to camp
-        self.frame.tkraise()
+        self.frameAry[0].tkraise()
     def placeBelow(self,lastButton):
         lastButton.update()
         self.spaceBelow = lastButton.winfo_y()
