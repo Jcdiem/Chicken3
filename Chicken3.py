@@ -271,7 +271,7 @@ class MainCamp:
         #TODO: Make a window for managing the camp
     def campExplore(self):
         eWindow = tk.Toplevel() #Keeping here until I can confirm I won't be needing it
-        self.exploreTab = Explore(eWindow) #Same with the exploreTab
+        self.exploreTab = expl.Explore(eWindow,resX,resY) #Same with the exploreTab
     def bringToFront(self): #Return to camp
         self.frameAry[0].tkraise()
     def placeOnX(self,block,previousBlock,right = 0,first = 0): #Place something on left side of screen
@@ -310,12 +310,6 @@ class MainCamp:
     def printDebug(self):
         print("Class function can be used")
 
-
-class Explore: #TODO: Make a window with Locations, 
-    def __init__(self,mWindow,xRes,yRes):
-        # alreadyRunning = True #Placeholder to TODO: prevent multiple Explore windows being open
-        # if(not alreadyRunning):
-        #     print("oof")
 
 
 def main():
