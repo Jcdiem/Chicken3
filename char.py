@@ -17,7 +17,6 @@ class Character: #TODO: Use char with explore encoutner
         self.modHealth = 0 #Modded health is applied after percent bonuses or by percent bonuses (I.E. 20% increase to max health would be taken from base and added to this)
         self.totalHealth = (self.modBaseHealth+self.modHealth) #Standard for calculating total health
 
-
     def changeHealth(self,baseAmnt = 0, modIncrease = 0, percentIncrease = 1.0): #Changes the health of character
         self.modBaseHealth = self.baseHealth
         self.modBaseHealth += baseAmnt
