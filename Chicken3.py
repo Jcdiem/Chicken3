@@ -46,21 +46,12 @@ largeInfoFont = ('default',infoFontLarge)
 campSizeMedium = round(0.0000454389574*resMult)
 campButtonFont = ('default',campSizeMedium)
 
-def newFrame(background):
-    retFrame = tk.Frame(root,bg=background)
-    retFrame.grid(row=0,column=0, sticky="nsew")
-    retFrame.grid_rowconfigure(0, weight = 1)
-    retFrame.grid_columnconfigure(0, weight = 1)
-    retFrame.grid()
-    retFrame.tkraise()
-    return retFrame
-
 
 
 class StartMenu:
     def __init__(self,master):
         self.root = master
-        self.frame = newFrame('black')
+        self.frame = calc.newFrame(root,'black')
         # self.campFrame = newFrame('black')
         #Buttons
         self.startGameBtn = tk.Button(
@@ -86,12 +77,12 @@ class StartMenu:
         self.mMenuTitle.grid()
         self.startGameBtn.grid()
     def switchScreen(self):
-        self.transitionFrame = newFrame('black')
+        self.transitionFrame = calc.newFrame(root,'black')
         return StartInfo(self.transitionFrame)
 
 class StartInfo:
     def __init__(self, master):
-        self.frame = newFrame('black')
+        self.frame = calc.newFrame(root,'black')
         self.frame.tkraise()
         self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="\"When in doubt, nuke it out\" -Ghandi 2019 ")
         self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
@@ -127,8 +118,8 @@ class MainCamp:
         #     self.backgroundC = 'black'
         #     self.foregroundC = 'white'
         self.frameAry = [
-            newFrame(self.backgroundC),   #0: Main screen
-            newFrame(self.backgroundC)    #1: Locations screen
+            calc.newFrame(root,self.backgroundC),   #0: Main screen
+            calc.newFrame(root,self.backgroundC)    #1: Locations screen
 
         ]
         self.bringToFront()
@@ -271,7 +262,7 @@ class MainCamp:
         #TODO: Make a window for managing the camp
     def campExplore(self):
         eWindow = tk.Toplevel() #Keeping here until I can confirm I won't be needing it
-        self.exploreTab = expl.Explore(eWindow,resX,resY) #Same with the exploreTab
+        self.exploreTab = expl.Explore(eWindow,resX,resY,scrAsp) #Same with the exploreTab
     def bringToFront(self): #Return to camp
         self.frameAry[0].tkraise()
     def placeOnX(self,block,previousBlock,right = 0,first = 0): #Place something on left side of screen
