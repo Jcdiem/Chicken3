@@ -99,12 +99,6 @@ class MainCamp:
         #Set the time of day frame color
         self.backgroundC = 'black'
         self.foregroundC = 'white'
-        # if(not (self.gameClockHour >= 6 and self.gameClockHour < 19)): #Do Daytime #TODO: Implement time background
-        #     self.backgroundC = 'dark turquoise'
-        #     self.foregroundC = 'black'
-        # else: #Do Nightime
-        #     self.backgroundC = 'black'
-        #     self.foregroundC = 'white'
         self.frameAry = [
             calc.newFrame(root,self.backgroundC),   #0: Main screen
             calc.newFrame(root,self.backgroundC)    #1: Locations screen
@@ -237,8 +231,6 @@ class MainCamp:
     def campSleep(self): #Sleep for 6 hours
         hoursSleep = 6
         self.addTime(hoursSleep*60)
-        # print("Slept, hour now {} and minute now {}".format(self.gameClockHourStr,self.gameClockMinuteStr))
-        # self.timeDisplay.update()
     def campStorage(self):
         print("OOF")
         #TODO: Make a storage screen
@@ -289,7 +281,19 @@ class MainCamp:
     def printDebug(self):
         print("Class function can be used")
 
+class Explore: #TODO: Make a window with Locations, 
+    def __init__(self,mWindow,xRes,yRes,scrAsp):
+        # alreadyRunning = True #Placeholder to TODO: prevent multiple Explore windows being open
+        # if(not alreadyRunning):
+        percentScreen = 0.85
+        self.resX = calc.getResX(xRes,scrAsp,percentScreen)
+        self.resY = calc.getResY(yRes,scrAsp,percentScreen)
+        resXY = str(self.resX)+"x"+str(self.resY)
+        mWindow.geometry(resXY)
+        self.frame = calc.newFrame(mWindow,'black')
 
+def switchApp(toThing):
+    app = toThing
 
 def main():
     app = StartMenu(root)
