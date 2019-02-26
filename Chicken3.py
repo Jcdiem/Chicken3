@@ -3,6 +3,7 @@ import os
 import char
 import exploration as expl
 import calcs as calc
+import fonts
 
 #Tk init
 root = tk.Tk()
@@ -34,19 +35,6 @@ root.iconbitmap(os.path.join("art","pixel","favicon.ico"))
 xWrapSideBuffer = 5
 fullScreenWrap = resX - xWrapSideBuffer
 
-menuSizeMedium = round(0.0000423*resMult)
-menuBtnFont = ('default',menuSizeMedium)
-
-menuSizeLarge = round(0.00006887*resMult)
-menuTitleFont = ('default',menuSizeLarge)
-
-infoFontLarge = round(0.000050862*resMult)
-largeInfoFont = ('default',infoFontLarge)
-
-campSizeMedium = round(0.0000454389574*resMult)
-campButtonFont = ('default',campSizeMedium)
-
-
 
 class StartMenu:
     def __init__(self,master):
@@ -56,7 +44,7 @@ class StartMenu:
         #Buttons
         self.startGameBtn = tk.Button(
             self.frame, 
-            font=menuBtnFont,
+            font=fonts.menuBtnFont(resMult),
             text="Start Game",
             command=self.switchScreen,
             bg='gray50',
@@ -68,7 +56,7 @@ class StartMenu:
         #Lables / Titles
         self.mMenuTitle = tk.Label(
             self.frame,
-            font=menuTitleFont,
+            font=fonts.menuTitleFont(resMult),
             text ="Chicken: The Threequel", 
             fg='white smoke',bg='black'
         )
@@ -84,8 +72,8 @@ class StartInfo:
     def __init__(self, master):
         self.frame = calc.newFrame(root,'black')
         self.frame.tkraise()
-        self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=largeInfoFont,wraplength=fullScreenWrap,text="\"When in doubt, nuke it out\" -Ghandi 2019 ")
-        self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=menuBtnFont,activebackground='gray36')
+        self.infoLabel = tk.Label(self.frame,bg='black',fg='white',font=fonts.largeInfoFont(resMult),wraplength=fullScreenWrap,text="\"When in doubt, nuke it out\" -Ghandi 2019 ")
+        self.startBtn = tk.Button(self.frame,command=self.switchScreen,fg='white',bg='gray50',text="Start",font=fonts.menuBtnFont(resMult),activebackground='gray36')
         #Grid stuff
         self.infoLabel.grid()
         self.startBtn.grid()
@@ -95,7 +83,7 @@ class StartInfo:
 class MainCamp:
     def __init__(self): #Creation of camp
         #Camp site information
-        self.butnFont = campButtonFont
+        self.butnFont = fonts.campButtonFont(resMult)
         self.currency = 0
         self.campMembers = []
         self.Discovery = [
