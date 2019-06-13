@@ -1,5 +1,5 @@
 # Chicken3
-Bawk bawk.
+A project that was going well until I realised my stupidity to use Python. Closed until I decide on an engine to use and finish work on rgLikeChicken. Was a good exploration of my python skills.
 
 # _Change Log_  
 * V 0.4  
