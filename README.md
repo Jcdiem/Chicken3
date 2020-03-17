@@ -1,5 +1,5 @@
 # Chicken3
-A project that was going well until I realised my stupidity to use Python. Closed until I decide on an engine to use and finish work on rgLikeChicken. Was a good exploration of my python skills.
+A project based on RNG for simple adventuring. Based on Flash many different point & click flash games.
 
 # _Change Log_  
 * V 0.01a  
