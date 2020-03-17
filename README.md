@@ -7,7 +7,7 @@ A project that was going well until I realised my stupidity to use Python. Close
 -Started work on main menu
 -Figuring out proper project structure still
 
-* _Python Versions_
+_Python Versions_
 * V Py-0.4  
 -Stopping the old 'meme' version system  
 -Current version system goes (playable version).(num of updates in this playable version)  
