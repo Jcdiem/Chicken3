@@ -1,7 +1,7 @@
 # Chicken3
 A project that was going well until I realised my stupidity to use Python. Closed until I decide on an engine to use and finish work on rgLikeChicken. Was a good exploration of my python skills.
 
-# _Change Log_
+# _Change Log_  
 * V 0.01a
 -Initial setup of the Godot engine for 2D purposes
 -Started work on main menu
