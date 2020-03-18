@@ -1,18 +1,27 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://fonts/ArialUnicodeMS.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://MainMenu.gd" type="Script" id=2]
-
-[sub_resource type="DynamicFont" id=1]
-size = 72
-font_data = ExtResource( 1 )
+[ext_resource path="res://Styling/Fonts/Titles.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Styling/Themes/standardTheme.tres" type="Theme" id=3]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
 margin_right = 1.0
+theme = ExtResource( 3 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="."]
+show_behind_parent = true
+margin_top = -1.05264
+margin_right = 1024.0
+margin_bottom = 598.947
+theme = ExtResource( 3 )
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -22,6 +31,7 @@ margin_left = 312.0
 margin_top = 140.0
 margin_right = 712.0
 margin_bottom = 175.0
+theme = ExtResource( 3 )
 text = "New Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -32,6 +42,7 @@ margin_left = 312.0
 margin_top = 215.0
 margin_right = 712.0
 margin_bottom = 250.0
+theme = ExtResource( 3 )
 text = "Load Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -42,6 +53,7 @@ margin_left = 312.0
 margin_top = 290.0
 margin_right = 712.0
 margin_bottom = 325.0
+theme = ExtResource( 3 )
 text = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -52,16 +64,18 @@ margin_left = 312.0
 margin_top = 365.0
 margin_right = 712.0
 margin_bottom = 400.0
+theme = ExtResource( 3 )
 text = "Exit Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="RichTextLabel" parent="."]
+[node name="title" type="RichTextLabel" parent="."]
 margin_left = 312.0
 margin_right = 712.0
 margin_bottom = 100.0
-custom_fonts/normal_font = SubResource( 1 )
+theme = ExtResource( 3 )
+custom_fonts/normal_font = ExtResource( 1 )
 custom_colors/default_color = Color( 0.2, 0.835294, 0.521569, 1 )
 bbcode_enabled = true
 bbcode_text = "[center]Chicken 3[/center]"

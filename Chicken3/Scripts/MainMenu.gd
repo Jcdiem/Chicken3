@@ -1,10 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,10 +18,10 @@ func _on_newGameBtn_pressed():
 func _on_loadGameBtn_pressed():
 	print("Showing load game menu");
 
-
 func _on_settingsBtn_pressed():
 	print("Showing settings menu");
-
+	get_tree().change_scene("res://Scenes/Menus/SettingsMainMenu.tscn");
+	
 
 func _on_exitBtn_pressed():
 	print("Quitting game from menu");
