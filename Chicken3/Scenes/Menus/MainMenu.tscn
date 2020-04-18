@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Styling/Fonts/Titles.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Menu Handling/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Styling/Themes/standardTheme.tres" type="Theme" id=3]
 
 [node name="MainMenu" type="Control"]

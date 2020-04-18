@@ -14,6 +14,7 @@ func _ready():
 
 func _on_newGameBtn_pressed():
 	print("Starting a new game");
+	get_tree().change_scene("res://Scenes/Menus/NewGameMenu.tscn");
 
 func _on_loadGameBtn_pressed():
 	print("Showing load game menu");

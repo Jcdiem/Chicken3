@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Menus/NewGameMenu.gd" type="Script" id=1]
+
+[node name="newGameRoot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 388.011, 160.607 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="backButton" type="Button" parent="."]
+margin_right = 48.0
+margin_bottom = 29.0
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="newCharButton" type="Button" parent="."]
+margin_left = 423.372
+margin_top = 261.337
+margin_right = 572.372
+margin_bottom = 281.337
+text = "Click me for new char"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="backButton" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="newCharButton" to="." method="_on_newCharButton_pressed"]
